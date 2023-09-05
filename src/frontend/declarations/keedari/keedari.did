@@ -1,0 +1,21 @@
+type Time = int;
+type Principal = principal;
+type Funding = 
+ record {
+   backers: vec principal;
+   creator: Principal;
+   currentValue: nat;
+   deadLine: Time;
+   description: text;
+   finished: bool;
+   goal: nat;
+   title: text;
+ };
+service : {
+  createFunding: (text, text, nat, Time, principal) -> (nat);
+  fund: (nat, nat, principal) -> (bool);
+  getFunding: (nat) -> (opt Funding) query;
+  getHello: () -> (text);
+  onFinishSchdule: () -> ();
+  withdraw: (nat, principal) -> (bool);
+}

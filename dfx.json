@@ -1,0 +1,67 @@
+{
+  "canisters": {
+    "keedari": {
+      "dependencies": [
+        "ledger"
+      ],
+      "declarations": {
+        "output": "src/frontend/declarations/keedari"
+      },
+      "main": "src/canisters/Keedari/main.mo",
+      "type": "motoko"
+    },
+    "ledger": {
+      "type": "custom",
+      "candid": "src/ledger/ledger.did",
+      "wasm": "src/ledger/ledger.wasm",
+      "declarations": {
+        "output": "src/frontend/declarations/ledger"
+      }
+    },
+    "internet_identity": {
+      "type": "custom",
+      "candid": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity.did",
+      "wasm": "https://github.com/dfinity/internet-identity/releases/latest/download/internet_identity_dev.wasm.gz",
+      "remote": {
+        "candid": "internet_identity.did",
+        "id": {
+          "ic": "bnz7o-iuaaa-aaaaa-qaaaa-cai"
+        }
+      },
+      "declarations": {
+        "output": "src/frontend/declarations/internet_identity"
+      }
+    },
+    "counter": {
+      "declarations": {
+        "output": "src/frontend/declarations/counter"
+      },
+      "main": "src/canisters/Counter/main.mo",
+      "type": "motoko"
+    },
+    "frontend": {
+      "dependencies": [
+        "counter"
+      ],
+      "frontend": {
+        "entrypoint": "src/frontend/index.html"
+      },
+      "source": [
+        "src/frontend/dist",
+        "src/frontend/assets"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "replica": {
+      "subnet_type": "system"
+    }
+  },
+  "networks": {
+    "local": {
+      "bind": "127.0.0.1:8123"
+    }
+  },
+  "version": 1
+}
