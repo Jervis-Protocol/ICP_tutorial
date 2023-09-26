@@ -1,21 +1,16 @@
 {
   "canisters": {
-    "keedari": {
-      "dependencies": [
-        "ledger"
-      ],
-      "declarations": {
-        "output": "src/frontend/declarations/keedari"
-      },
-      "main": "src/canisters/Keedari/main.mo",
-      "type": "motoko"
-    },
-    "ledger": {
+    "ledger_canister": {
       "type": "custom",
-      "candid": "src/ledger/ledger.did",
-      "wasm": "src/ledger/ledger.wasm",
+      "candid": "https://raw.githubusercontent.com/dfinity/ic/d87954601e4b22972899e9957e800406a0a6b929/rs/rosetta-api/icp_ledger/ledger.did",
+      "wasm": "https://download.dfinity.systems/ic/d87954601e4b22972899e9957e800406a0a6b929/canisters/ledger-canister.wasm.gz",
+      "remote": {
+        "id": {
+          "ic": "ryjl3-tyaaa-aaaaa-aaaba-cai"
+        }
+      },
       "declarations": {
-        "output": "src/frontend/declarations/ledger"
+        "output": "src/frontend/declarations/ledger_canister"
       }
     },
     "internet_identity": {
@@ -41,6 +36,7 @@
     },
     "frontend": {
       "dependencies": [
+        "ledger_canister",
         "counter"
       ],
       "frontend": {
@@ -60,7 +56,7 @@
   },
   "networks": {
     "local": {
-      "bind": "127.0.0.1:8123"
+      "bind": "127.0.0.1:8122"
     }
   },
   "version": 1

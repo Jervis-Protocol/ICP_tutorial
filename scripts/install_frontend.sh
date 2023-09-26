@@ -17,5 +17,5 @@ echo "installed frontend"
 # dfx deploy frontend
 
 # echo "===== VISIT DEFI FRONTEND ====="
-echo "http://127.0.0.1:8123?canisterId=$(dfx canister id frontend)"
+echo "http://127.0.0.1:8122?canisterId=$(dfx canister id frontend)"
 # echo "===== VISIT DEFI FRONTEND ====="

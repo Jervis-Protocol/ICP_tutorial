@@ -9,6 +9,9 @@ export namespace BackendActor {
   export async function setAuthClient(ac: AuthClient) {
     authClient = ac;
   }
+
+
+
   export async function getBackendActor(): Promise<ActorSubclass<_SERVICE>> {
     if (!authClient) {
       authClient = await AuthClient.create();

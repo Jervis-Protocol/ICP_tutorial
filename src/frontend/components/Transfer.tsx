@@ -1,24 +1,43 @@
 import React from "react"
-import { useWallet, useTransfer } from "@connect2ic/react"
+import { createActor, canisterId } from '../declarations/ledger_canister'
+import { Principal } from '@dfinity/principal'
+import { HttpAgent } from "@dfinity/agent"
 
-const Transfer = () => {
+const Transfer = (props) => {
 
-  const [wallet] = useWallet()
-  const [transfer] = useTransfer({
-    to: "9dd04c8ba6039018a7b6d569cf6192efc596a0435fdc7f6fdb2d017518360409",
-    amount: Number(0.01),
+  const transfer = async (to: string, amount: number) => {
+    await actor.icrc1_transfer({
+      to: { owner: Principal.fromText(to), subaccount: [] },
+      amount: BigInt(amount*(10**8)),
+      fee: [],
+      memo: [],
+      from_subaccount: [],
+      created_at_time: []
+    })
+  }
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    await transfer(event.target.to.value, event.target.amount.value);
+  }
+
+  const agent = new HttpAgent({
+    identity: props.identity,
+    host: "http://localhost:8122"
   })
 
-  const onPurchase = async () => {
-    const { height } = await transfer()
-  }
+  const actor = createActor(canisterId.toString(), {agent});
 
   return (
     <div className="example">
-      {wallet ? (
+
+      {props.connect ? (
         <>
-          <p>Buy me beer</p>
-          <button className="connect-button" onClick={onPurchase}>Purchase</button>
+          <form onSubmit={onSubmit}>
+            To: <input type="text" name="to" /><br />
+            Amount: <input type="text" name="amount" /><br />
+            <button type="submit" >Send</button>
+          </form>
         </>
       ) : (
         <p className="example-disabled">Connect with a wallet to access this example</p>

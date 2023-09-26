@@ -1,30 +1,30 @@
-import React from "react"
-import { useBalance, useWallet } from "@connect2ic/react"
+import React, { useEffect, useState, useRef } from "react"
+import { ledger_canister } from '../declarations/ledger_canister'
+import { Principal } from '@dfinity/principal'
 
-const Profile = () => {
+const Profile = (props: any) => {
 
-  const [wallet] = useWallet()
-  const [assets] = useBalance()
+  const [balance, setBalance] = useState(0);
+
+  const getBalance = async (principal: string) => {
+    if (props.address !== "") {
+      const bal = await ledger_canister.icrc1_balance_of({ owner: Principal.fromText(principal), subaccount: [] });
+      setBalance(Number((Number(bal)/(10**8)).toFixed(4)))
+    };
+  }
+
+  useEffect(() => {
+    const interval = setInterval(() => getBalance(props.address), 1000);
+    return () => clearInterval(interval)
+  })
 
   return (
     <div className="example">
-      {wallet ? (
+      {props.connect ? (
         <>
-          <p>Wallet address: <span style={{ fontSize: "0.7em" }}>{wallet ? wallet.principal : "-"}</span></p>
-          <table>
-            <tbody>
-            {assets && assets.map(asset => (
-              <tr key={asset.canisterId}>
-                <td>
-                  {asset.name}
-                </td>
-                <td>
-                  {asset.amount}
-                </td>
-              </tr>
-            ))}
-            </tbody>
-          </table>
+          <div>Principal: </div>
+          <div><span style={{ fontSize: "1em" }}>{props.address}</span></div>
+          <p>Balance: <span style={{ fontSize: "1em" }}>{balance} ICP</span></p>
         </>
       ) : (
         <p className="example-disabled">Connect with a wallet to access this example</p>
